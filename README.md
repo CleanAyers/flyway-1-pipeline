@@ -15,15 +15,13 @@ It is part of the distributed Flyway structure defined in the [shared-flyway-ddl
 
 ## 📂 Structure
 ```
-flyway-1-pipeline/
-├── sql/
-│ ├── V001__baseline_schema.sql
-│ ├── V002__add_claims_indexes.sql
-│ ├── V003__optimize_joins.sql
-│ └── ...
-├── conf/
-│ └── flyway.conf
-└── README.md
+├── flyway-1-pipeline/                    # 🏗️ Cluster 1 schema migrations
+│   ├── ro-shared-ddl/                    # Synced from parent
+│   │   ├── sql/
+│   │   │   └── V1__test.sql
+│   │   └── sh/
+│   │       └── child_pull_shared.sh
+│   └── README.md
 ```
 
 
