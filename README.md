@@ -1,6 +1,6 @@
 # flyway-1-pipeline - **CHILD REPOSITORY**
 
-> **🚫 DO NOT EDIT `ro-shared-ddl/` FOLDER** - These files are managed by the parent repo
+> **🚫 DO NOT EDIT `read-only-flyway-files/` FOLDER** - These files are managed by the parent repo
 
 ## 🚀 Quick Start
 
@@ -8,7 +8,7 @@
 1. **Clone this repository**
 2. **Set up Git aliases**:
    ```bash
-   git config alias.syncshared '!git fetch parent-shared ro-shared-ddl && git subtree pull --prefix=ro-shared-ddl parent-shared ro-shared-ddl --squash && git add -A && git commit -m "chore(shared): sync ro-shared-ddl" || true && git push'
+   git config alias.syncshared '!git fetch parent-shared ro-shared-ddl && git subtree pull --prefix=read-only-flyway-files parent-shared ro-shared-ddl --squash && git add -A && git commit -m "chore(shared): sync read-only-flyway-files" || true && git push'
    ```
 3. **Add parent remote**:
    ```bash
@@ -16,22 +16,22 @@
    ```
 4. **Install Git protection hooks**:
    ```bash
-   ./ro-shared-ddl/sh/setup_git_hooks.sh
+   ./read-only-flyway-files/sh/setup_git_hooks.sh
    ```
 
 ### Daily Workflow
 - **Sync shared files**: Run `git syncshared` to pull latest from parent
-- **Edit child-specific files**: Only edit files outside of `ro-shared-ddl/`
+- **Edit child-specific files**: Only edit files outside of `read-only-flyway-files/`
 
 ## Repository Structure
 ```
 flyway-1-pipeline/
-├── README.md                     # This file
-├── ro-shared-ddl/               # 🚫 DO NOT EDIT - Managed by parent
+├── README.md                        # This file
+├── read-only-flyway-files/         # 🚫 DO NOT EDIT - Managed by parent
 │   ├── .DO_NOT_EDIT_MANAGED_BY_PARENT
-│   ├── sql/                     # Shared SQL migrations
-│   └── sh/                      # Shared scripts
-└── [your child-specific files]  # ✅ Edit these freely
+│   ├── sql/                        # Shared SQL migrations
+│   └── sh/                         # Shared scripts
+└── [your child-specific files]     # ✅ Edit these freely
 ```
 
 # 🏗️ Cluster 1 – Flyway Pipeline
@@ -43,14 +43,14 @@ It is part of the distributed Flyway structure defined in the [shared-flyway-ddl
 **Purpose:**  
 - Versioned SQL migrations `V__` prefix  
 - Structural changes to tables, views, functions, and indexes  
-- Separate lifecycle from `ecs-1-grants` (access control repository)  
+- Separate lifecycle from `flyway-1-grants` (access control repository)  
 
 ---
 
 ## 📂 Structure
 ```
 ├── flyway-1-pipeline/                    # 🏗️ Cluster 1 schema migrations
-│   ├── ro-shared-ddl/                    # Synced from parent
+│   ├── read-only-flyway-files/          # Synced from parent
 │   │   ├── sql/
 │   │   │   └── V1__test.sql
 │   │   └── sh/
@@ -58,14 +58,13 @@ It is part of the distributed Flyway structure defined in the [shared-flyway-ddl
 │   └── README.md
 ```
 
-
 ---
 
 ## 🚀 Usage
 Run migrations locally or through CI/CD:
 
 ```bash
-flyway -configFiles=conf/flyway.conf migrate
+flyway -configFiles=config/flyway.conf migrate
 ```
 
 ## 🧩 Notes
@@ -74,9 +73,9 @@ flyway -configFiles=conf/flyway.conf migrate
 
 - Do not include grants or permissions here — those belong to flyway-1-grants.
 
-- Sync schema baselines periodically with shared-flyway-ddl/global/baseline/.
+- Sync schema baselines periodically with shared-flyway-ddl/read-wrte-flyway-files/baseline/.
 
 ## Important Rules
-- **NEVER** edit files in the `ro-shared-ddl/` folder directly
-- **ALWAYS** make shared changes in the parent repo's `shared/` folder
+- **NEVER** edit files in the `read-only-flyway-files/` folder directly
+- **ALWAYS** make shared changes in the parent repo's `read-wrte-flyway-files/` folder
 - Git hooks will warn you if you try to commit changes to managed files

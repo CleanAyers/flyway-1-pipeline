@@ -43,19 +43,19 @@ sync-shared:
     - git remote add parent-shared https://github.com/CleanAyers/shared-flyway-ddl.git || true
     - git fetch parent-shared ro-shared-ddl
     - |
-      if [ -d "ro-shared-ddl" ]; then
-        echo "📁 Updating existing ro-shared-ddl folder..."
-        git subtree pull --prefix=ro-shared-ddl parent-shared ro-shared-ddl --squash
+      if [ -d "read-only-flyway-files" ]; then
+        echo "📁 Updating existing read-only-flyway-files folder..."
+        git subtree pull --prefix=read-only-flyway-files parent-shared ro-shared-ddl --squash
       else
-        echo "📁 Adding ro-shared-ddl folder for first time..."
-        git subtree add --prefix=ro-shared-ddl parent-shared ro-shared-ddl --squash
+        echo "📁 Adding read-only-flyway-files folder for first time..."
+        git subtree add --prefix=read-only-flyway-files parent-shared ro-shared-ddl --squash
       fi
     - |
       if [ -n "$(git status --porcelain)" ]; then
         git config user.email "ci@gitlab.com"
         git config user.name "GitLab CI"
         git add -A
-        git commit -m "chore(ci): sync ro-shared-ddl from parent [skip ci]"
+        git commit -m "chore(ci): sync read-only-flyway-files from parent [skip ci]"
         git push origin $CI_COMMIT_BRANCH
         echo "✅ Shared content synchronized and committed"
       else
@@ -79,12 +79,16 @@ validate-sql:
         FLYWAY_CONFIG=""
       fi
     - |
+      # Set locations to include both local and shared SQL
+      export FLYWAY_LOCATIONS="filesystem:sql,filesystem:read-only-flyway-files/sql"
+    - |
       # Create temporary flyway.conf for validation
       cat > temp-flyway.conf << EOF
       flyway.url=jdbc:postgresql://localhost:5432/validation_db
       flyway.user=flyway_user
       flyway.password=flyway_pass
       flyway.schemas=public
+      flyway.locations=${FLYWAY_LOCATIONS}
       flyway.validateMigrationNaming=true
       flyway.validateOnMigrate=true
       EOF
@@ -149,14 +153,15 @@ deploy-dev:
         echo "❌ FLYWAY_URL_DEV not configured"
         exit 1
       fi
+    - export FLYWAY_LOCATIONS="filesystem:sql,filesystem:read-only-flyway-files/sql"
     - echo "📊 Current development database status:"
-    - flyway -url="${FLYWAY_URL_DEV}" -user="${FLYWAY_USER_DEV}" -password="${FLYWAY_PASSWORD_DEV}" info
+    - flyway -url="${FLYWAY_URL_DEV}" -user="${FLYWAY_USER_DEV}" -password="${FLYWAY_PASSWORD_DEV}" -locations="${FLYWAY_LOCATIONS}" info
     - echo "🔍 Validating before migration..."
-    - flyway -url="${FLYWAY_URL_DEV}" -user="${FLYWAY_USER_DEV}" -password="${FLYWAY_PASSWORD_DEV}" validate
+    - flyway -url="${FLYWAY_URL_DEV}" -user="${FLYWAY_USER_DEV}" -password="${FLYWAY_PASSWORD_DEV}" -locations="${FLYWAY_LOCATIONS}" validate
     - echo "🚀 Running migrations..."
-    - flyway -url="${FLYWAY_URL_DEV}" -user="${FLYWAY_USER_DEV}" -password="${FLYWAY_PASSWORD_DEV}" migrate
+    - flyway -url="${FLYWAY_URL_DEV}" -user="${FLYWAY_USER_DEV}" -password="${FLYWAY_PASSWORD_DEV}" -locations="${FLYWAY_LOCATIONS}" migrate
     - echo "📊 Final development database status:"
-    - flyway -url="${FLYWAY_URL_DEV}" -user="${FLYWAY_USER_DEV}" -password="${FLYWAY_PASSWORD_DEV}" info
+    - flyway -url="${FLYWAY_URL_DEV}" -user="${FLYWAY_USER_DEV}" -password="${FLYWAY_PASSWORD_DEV}" -locations="${FLYWAY_LOCATIONS}" info
     - echo "✅ Development deployment completed"
 
 # Deploy to Staging Environment  
