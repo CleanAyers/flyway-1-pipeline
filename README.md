@@ -1,15 +1,13 @@
-# flyway-1-grants - **CHILD REPOSITORY**
+# **CHILD REPOSITORY** - flyway-1-pipeline 
 
 > **🚫 DO NOT EDIT `read-write-flyway-files/` FOLDER** - These files are managed by the parent repo which you can find [here](https://github.com/CleanAyers/shared-flyway-ddl)
 
 
 ## Sync Status
-| Repository | Status | Last Sync | Branch | Notes |
+| Repository | Status | Last Sync | Branch | Notes  |
 |------------|--------|-----------|---------|-------|
-| **flyway-1-pipeline** | [![Downstream Sync Status](https://github.com/CleanAyers/flyway-1-pipeline/actions/workflows/flyway-protection.yml/badge.svg)](https://github.com/CleanAyers/flyway-1-pipeline/actions/workflows/flyway-protection.yml) | ![Last Commit](https://img.shields.io/github/last-commit/CleanAyers/flyway-1-pipeline/main?label=&style=flat-square) | `main` | Pipeline Database |
-| **flyway-1-grants** | [![Downstream Sync Status](https://github.com/CleanAyers/flyway-1-grants/actions/workflows/flyway-protection.yml/badge.svg)](https://github.com/CleanAyers/flyway-1-grants/actions/workflows/flyway-protection.yml) | ![Last Commit](https://img.shields.io/github/last-commit/CleanAyers/flyway-1-grants/main?label=&style=flat-square) | `main` | Grants & Permissions |
-| **flyway-2-pipeline** | [![Downstream Sync Status](https://github.com/CleanAyers/flyway-2-pipeline/actions/workflows/flyway-protection.yml/badge.svg)](https://github.com/CleanAyers/flyway-2-pipeline/actions/workflows/flyway-protection.yml) | ![Last Commit](https://img.shields.io/github/last-commit/CleanAyers/flyway-2-pipeline/main?label=&style=flat-square) | `main` | Pipeline Database |
-| **flyway-2-grants** | [![Downstream Sync Status](https://github.com/CleanAyers/flyway-2-grants/actions/workflows/flyway-protection.yml/badge.svg)](https://github.com/CleanAyers/flyway-2-grants/actions/workflows/flyway-protection.yml) | ![Last Commit](https://img.shields.io/github/last-commit/CleanAyers/flyway-2-grants/main?label=&style=flat-square) | `main` | Grants & Permissions |
+| **flyway-1-pipeline** | [![Downstream Sync Status](https://github.com/CleanAyers/flyway-1-pipeline/actions/workflows/flyway-protection.yml/badge.svg)](https://github.com/CleanAyers/flyway-1-pipeline/actions/workflows/flyway-protection.yml) | ![Last Commit](https://img.shields.io/github/last-commit/CleanAyers/flyway-1-pipeline/main?label=&style=flat-square) | `main` | Grants & Permissions |
+
 
 ## 🔄 Data Flow Architecture
 
